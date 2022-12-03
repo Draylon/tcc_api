@@ -26,7 +26,7 @@ app.use(router);
 mongo.init();
 
 app.listen(3000, () => {
-    console.log("app is listening");
+    console.log("app is listening successfully");
 })
 
 fs.access("./ssl/key.pem", fs.F_OK, (err) => {
