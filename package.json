@@ -12,8 +12,8 @@
   "description": "mongo api",
   "main": "app.js",
   "scripts": {
-    "test": "nodemon app.js",
-    "app": "node app.js"
+    "app": "node app.js",
+    "local_debugging": "nodemon app.js"
   },
   "author": "draylon",
   "license": "ISC"
