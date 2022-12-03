@@ -8,11 +8,9 @@ const https = require("https");
 const fs = require("fs");
 const helmet = require("helmet");
 
-// const options = {
-//     key: fs.readFileSync("./ssl/key.pem"),
-//     cert: fs.readFileSync("./ssl/cert.pem"),
-//     dhparam: fs.readFileSync("./ssl/dh.pem")
-//   };
+const canRequire = require('./src/misc/canRequire');
+
+//===========================
 
 require('dotenv').config();
 
@@ -31,6 +29,26 @@ app.listen(3000, () => {
     console.log("app is listening");
 })
 
+fs.access("./ssl/key.pem", fs.F_OK, (err) => {
+  if (err) {
+    console.error(err)
+    return;
+  }
+  try {
+    const options = {
+      key: fs.readFileSync("./ssl/key.pem"),
+      cert: fs.readFileSync("./ssl/cert.pem"),
+      dhparam: fs.readFileSync("./ssl/dh.pem")
+    };
+    https.createServer(options, app).listen(8080,()=>{
+      console.log("Started https");
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
 //https://documentation.commvault.com/v11/essential/45578_rest_api_authentication_post_login.html
 
 //https://web.dev/i18n/pt/how-to-use-local-https/
@@ -47,5 +65,3 @@ app.listen(3000, () => {
 // });
 
 // app.listen(8000);
-
-//https.createServer(options, app).listen(8080);
