@@ -25,13 +25,11 @@ app.use(router);
 
 mongo.init();
 
-app.listen(3000, () => {
-    console.log("app is listening successfully");
-})
-
 fs.access("./ssl/key.pem", fs.F_OK, (err) => {
   if (err) {
-    console.error(err)
+    app.listen(8080, () => {
+      console.log("app is listening successfully");
+  })
     return;
   }
   try {
@@ -40,6 +38,11 @@ fs.access("./ssl/key.pem", fs.F_OK, (err) => {
       cert: fs.readFileSync("./ssl/cert.pem"),
       dhparam: fs.readFileSync("./ssl/dh.pem")
     };
+
+    app.listen(8081, () => {
+      console.log("app is listening successfully");
+  })
+
     https.createServer(options, app).listen(8080,()=>{
       console.log("Started https");
     });
