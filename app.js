@@ -8,11 +8,11 @@ const https = require("https");
 const fs = require("fs");
 const helmet = require("helmet");
 
-const options = {
-    key: fs.readFileSync("./ssl/key.pem"),
-    cert: fs.readFileSync("./ssl/cert.pem"),
-    dhparam: fs.readFileSync("./ssl/dh.pem")
-  };
+// const options = {
+//     key: fs.readFileSync("./ssl/key.pem"),
+//     cert: fs.readFileSync("./ssl/cert.pem"),
+//     dhparam: fs.readFileSync("./ssl/dh.pem")
+//   };
 
 require('dotenv').config();
 
@@ -48,4 +48,4 @@ app.listen(3000, () => {
 
 // app.listen(8000);
 
-https.createServer(options, app).listen(8080);
+//https.createServer(options, app).listen(8080);
