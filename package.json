@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "app-root-path": "^3.1.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "mongoose": "^6.7.2",
+    "nodemon": "^2.0.20"
+  },
+  "name": "api",
+  "version": "1.0.0",
+  "description": "mongo api",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js",
+    "app": "node app.js"
+  },
+  "author": "draylon",
+  "license": "ISC"
+}
