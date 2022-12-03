@@ -12,6 +12,8 @@ module.exports = {
             family: 4
         };
 
+        console.log("logging in with:");
+        console.log("mongodb+srv://"+process.env.MONGODB_USERNAME+':'+process.env.MONGODB_PW+'@'+process.env.MONGODB_CLOUD_ADDR);
         //mongoose.connect('mongodb://localhost:27017/trab_db', {useNewUrlParser: true});
         mongoose.connect('mongodb+srv://'+process.env.MONGODB_USERNAME+':'+process.env.MONGODB_PW+'@'+process.env.MONGODB_CLOUD_ADDR,dbOptions);
         
