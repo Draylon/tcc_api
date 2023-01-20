@@ -25,6 +25,9 @@ module.exports = {
             //Listar todas as tags na cidade
             //Filtrar as cidades mais próximas
 
+            if(req.query == {} || req.params == {})
+                return res.status(400).send();
+
             var rd = {
                 "tags": [],
                 "sensor_data": [],
