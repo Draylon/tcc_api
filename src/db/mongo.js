@@ -16,7 +16,7 @@ module.exports = {
             mongoose.connect('mongodb+srv://'+process.env.MONGODB_USERNAME+':'+process.env.MONGODB_PW+'@'+process.env.MONGODB_CLOUD_ADDR,dbOptions);
         }
         if(process.env.NODE_ENV == "development"){
-            mongoose.connect('mongodb://localhost:27017/trab_db', {useNewUrlParser: true});
+            mongoose.connect('mongodb://192.168.3.128:27017/trab_db', {useNewUrlParser: true});
         }
         ////mongoose.connect('mongodb+srv://admin:'+process.env.MONGO_PW+'@cluster0.w3ynl.mongodb.net/DogeBot_SQL?retryWrites=true&w=majority', dbOptions);
         
