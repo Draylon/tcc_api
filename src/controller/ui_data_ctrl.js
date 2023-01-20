@@ -100,8 +100,6 @@ module.exports = {
                   }
             }]);
             nr_cities[0].cities.forEach(e=>{e.city.toLowerCase()==req.query.city.toLowerCase()?null:rd.nearby_cities.push(e.city);})
-
-
             return res.status(200).json(rd);
         }else{
             //http://api.positionstack.com/v1/reverse?access_key=83305497cc68ff4dbbb3a16664975d10&query=-26.295280164458728,-48.83570063881643&limit=10
