@@ -104,7 +104,7 @@ module.exports = {
         }else{
             //http://api.positionstack.com/v1/reverse?access_key=83305497cc68ff4dbbb3a16664975d10&query=-26.295280164458728,-48.83570063881643&limit=10
     
-            return res.status(200).send();
+            return res.status(200).send("Type not specified");
 
             const data = await SensorData.find({device_id:req.query.data_type},length=10);
             if (data){
