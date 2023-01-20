@@ -3,7 +3,7 @@ const router = express.Router();
 
 const db = require('../db/mongo');
 
-const {SensorCtrl} = require('../controller');
+const {DataCtrl} = require('../controller');
 
 cringe = (req,res) =>{
     const rquery = req.query;
@@ -17,15 +17,21 @@ cringe = (req,res) =>{
 };
 
 router
-    .route('/api/sensor')
-    .get(SensorCtrl.getAll)
-    .post(SensorCtrl.createOne);
+    .route('/api/data')
+    .post(cringe)
+    .delete(DataCtrl.deleteAll);
 
 router
-    .route('/api/sensor/:sensor_id')
-    .get(SensorCtrl.getOne)
-    .patch(SensorCtrl.updateOne)
-    .delete(SensorCtrl.deleteOne);
+    .route('/api/data/:lat/:long')
+    .get(DataCtrl.getByRegion)
+    .delete(DataCtrl.deleteByRegion);
+
+router
+    .route('/api/data/:sensor_id')
+    .get(DataCtrl.getBySensor)
+    .post(DataCtrl.postData)
+    .patch(DataCtrl.updateOne)
+    .delete(DataCtrl.deleteBySensor);
     
 
 module.exports = router;

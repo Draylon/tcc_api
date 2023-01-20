@@ -2,13 +2,9 @@ const express = require('express');
 const mongo = require('./src/db/mongo');
 const router = require("./src/routes");
 
-const appRoot = require('app-root-path');
-
 const https = require("https");
 const fs = require("fs");
 const helmet = require("helmet");
-
-const canRequire = require('./src/misc/canRequire');
 
 //===========================
 
@@ -25,31 +21,38 @@ app.use(router);
 
 mongo.init();
 
-fs.access("./ssl/key.pem", fs.F_OK, (err) => {
-  if (err) {
-    app.listen(8080, () => {
-      console.log("app is listening successfully");
-  })
-    return;
-  }
-  try {
-    const options = {
-      key: fs.readFileSync("./ssl/key.pem"),
-      cert: fs.readFileSync("./ssl/cert.pem"),
-      dhparam: fs.readFileSync("./ssl/dh.pem")
-    };
+if(process.env.NODE_ENV == "development"){
+    fs.access("./ssl/key.pem", fs.F_OK, (err) => {
+    if (err) {
+        console.log(err);return;
+    }
+    try {
+        const options = {
+            key: fs.readFileSync("./ssl/key.pem"),
+            cert: fs.readFileSync("./ssl/cert.pem"),
+            dhparam: fs.readFileSync("./ssl/dh.pem")
+        };
 
-    app.listen(8081, () => {
-      console.log("app is listening successfully");
-  })
+        app.listen(8081, () => {
+            console.log("app is listening successfully");
+        })
 
-    https.createServer(options, app).listen(8080,()=>{
-      console.log("Started https");
+        https.createServer(options, app).listen(8080,()=>{
+            console.log("Started https");
+        });
+    } catch (error) {
+        console.log(error);
+    }
     });
-  } catch (error) {
-    console.log(error);
-  }
-});
+}
+
+if(process.env.NODE_ENV == "production"){
+    app.listen(8080, () => {
+        console.log("app is listening successfully");
+    })
+}
+
+
 
 
 //https://documentation.commvault.com/v11/essential/45578_rest_api_authentication_post_login.html
