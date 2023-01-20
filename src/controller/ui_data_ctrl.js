@@ -65,7 +65,6 @@ module.exports = {
 
             //=====================================
             var withincity = await Location.find({city: {$regex: req.query.city,$options: 'i'}});
-            console.log(withincity);
             withincity.forEach(local_da_cidade=>{
                 rd.within_city.push(local_da_cidade.name);
             })
@@ -100,11 +99,8 @@ module.exports = {
                     }
                   }
             }]);
-            console.log(nr_cities);
             nr_cities[0].cities.forEach(e=>{e.city.toLowerCase()==req.query.city.toLowerCase()?null:rd.nearby_cities.push(e.city);})
 
-            console.log("returning");
-            console.log(rd);
 
             return res.status(200).json(rd);
         }else{
