@@ -16,16 +16,24 @@ cringe = (req,res) =>{
     return res.status(204).send();
 };
 
-router
-    .route('/api/sensor')
+//=======================
+
+const v1_route = express.Router();
+
+v1_route
+    .route('/sensor')
     .get(SensorCtrl.getAll)
     .post(SensorCtrl.createOne);
 
-router
-    .route('/api/sensor/:sensor_id')
+v1_route
+    .route('/sensor/:sensor_id')
     .get(SensorCtrl.getOne)
     .patch(SensorCtrl.updateOne)
     .delete(SensorCtrl.deleteOne);
-    
+
+
+//=======================================
+
+router.use('/v1',v1_route);
 
 module.exports = router;

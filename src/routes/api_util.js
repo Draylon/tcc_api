@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const db = require('../db/mongo');
-
-const {UIDataCtrl} = require('../controller');
+const {Utils} = require("../controller")
 
 cringe = (req,res) =>{
     const rquery = req.query;
@@ -21,14 +19,18 @@ cringe = (req,res) =>{
 const v1_route = express.Router();
 
 v1_route
-    .route('/ui_data/:data_type')
-    .get(UIDataCtrl.get)
-    .post(UIDataCtrl.create)
-    .patch(UIDataCtrl.update)
-    .delete(UIDataCtrl.delete);
-    
+    .route("/api/util/blurhashes")
+    .get(Utils.getBlurHashes);
 
-//=====================================
+v1_route
+    .route("/api/util/retrieve_asset")
+    .get(Utils.retrieveAsset);
+
+v1_route
+    .route("/api/util/img_lookup")
+    .get(Utils.getImg);
+
+//=================================
 
 router.use('/v1',v1_route);
 

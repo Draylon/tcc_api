@@ -5,6 +5,8 @@ module.exports = {
     //UIDataCtrl: require('./ui_data_ctrl'),
     //CustomUIWidgets: require("./customuiwidgets_ctrl"),
     //CustomUI: require("./customui_ctrl"),
-    //Location: require("./locations_ctrl"),
+    Location: require("./locations_ctrl"),
     //LocationType: require("./loctype_ctrl"),
+    Utils: require("./utils_controller"),
+    
 };

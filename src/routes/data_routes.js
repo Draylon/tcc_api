@@ -16,22 +16,38 @@ cringe = (req,res) =>{
     return res.status(204).send();
 };
 
-router
-    .route('/api/data')
+//==============================
+
+const v1_route = express.Router();
+
+
+v1_route
+    .route('/data')
+    .get(cringe)
     .post(cringe)
     .delete(DataCtrl.deleteAll);
 
-router
-    .route('/api/data/:lat/:long')
+    v1_route
+    .route('/data/ui_feed/:type')
+    .all(DataCtrl.parseUIFeed);
+
+    v1_route
+    .route('/data/region/:lat/:long')
     .get(DataCtrl.getByRegion)
     .delete(DataCtrl.deleteByRegion);
 
-router
-    .route('/api/data/:sensor_id')
+v1_route
+    .route('/data/sensor/:sensor_id')
     .get(DataCtrl.getBySensor)
     .post(DataCtrl.postData)
     .patch(DataCtrl.updateOne)
     .delete(DataCtrl.deleteBySensor);
+
+
     
+
+//=========================================
+
+router.use('/v1',v1_route);
 
 module.exports = router;

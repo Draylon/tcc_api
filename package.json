@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "app-root-path": "^3.1.0",
+    "axios": "^1.2.4",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "helmet": "^6.0.1",
@@ -14,7 +15,9 @@
   "main": "app.js",
   "scripts": {
     "app": "node app.js",
-    "local_debugging": "nodemon app.js"
+    "mosquittoMQ":"node mqtt.js",
+    "local_debugging": "nodemon app.js",
+    "mqtt_debugging":"nodemon mqtt.js"
   },
   "author": "draylon",
   "license": "ISC"

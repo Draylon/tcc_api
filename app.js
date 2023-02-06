@@ -8,6 +8,9 @@ const helmet = require("helmet");
 
 //===========================
 
+const mqtt_en = require("./mqtt")
+const mqtt_msg_parser = require("./src/shared/mqtt_message_parser")
+
 require('dotenv').config();
 
 const app = express();
@@ -40,6 +43,9 @@ if(process.env.NODE_ENV == "development"){
         https.createServer(options, app).listen(8080,()=>{
             console.log("Started https");
         });
+
+        //mqtt_en.init(mqtt_msg_parser);
+
     } catch (error) {
         console.log(error);
     }
@@ -50,6 +56,8 @@ if(process.env.NODE_ENV == "production"){
     app.listen(8080, () => {
         console.log("app is listening successfully");
     })
+
+    //mqtt_en.init(mqtt_msg_parser);
 }
 
 

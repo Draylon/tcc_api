@@ -1,15 +1,15 @@
 const express = require('express');
 const generalRouter = express.Router();
 
-const r1 = require("./sensor_routes");
-//const r2 = require("./locations_routes");
-//const r3 = require("./data_routes");
-const r4 = require("./uiData_routes");
+const module_list = [
+    require("./sensor_routes"),
+    require("./locations_routes"),
+    require("./data_routes"),
+    require("./uiData_routes"),
+    require("./api_util"),
+];
 
-generalRouter.use(r1);
-//generalRouter.use(r2);
-//generalRouter.use(r3);
-generalRouter.use(r4);
+module_list.forEach((e)=>generalRouter.use(e));
 
 cringe = (req,res) =>{
     const rquery = req.query;
@@ -22,14 +22,16 @@ cringe = (req,res) =>{
     return res.status(204).send();
 };
 
-generalRouter.route("/api").all(cringe);
+generalRouter.route("/").all(cringe);
 
-generalRouter.route("/test").all(cringe);
+//======================================================
 
-generalRouter.route("/").get(async (req, res) => {
-        return res.status(200).send(":)");
-    }
+
+const forwardedRouter = express.Router();
+forwardedRouter.route("/").get(async (req, res) => {
+    return res.status(200).send(":)");
+}
 );
 
-
-module.exports = generalRouter;
+forwardedRouter.use("/api",generalRouter);
+module.exports = forwardedRouter;

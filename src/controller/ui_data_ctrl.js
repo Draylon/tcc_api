@@ -30,6 +30,7 @@ module.exports = {
 
             var rd = {
                 "tags": [],
+                "tags_en": [],
                 "sensor_data": [],
                 "within_city": [],
                 "nearby_cities": [],
@@ -50,11 +51,14 @@ module.exports = {
                 }
             });
             loc_tags = new Set();
+            loc_tags_en = new Set();
             tags_docs.forEach(e=>{
                 loc_tags.add(e.type);
+                loc_tags_en.add(e.type_en);
             })
             
             Array.from(loc_tags).forEach(e=>{if(e!=[])rd.tags.push(e);});
+            Array.from(loc_tags_en).forEach(e=>{if(e!=[])rd.tags_en.push(e);});
             //============
             var loc_unit_types=new Set();
             var sensors_nearby = await SensorDevice.findByDistance(req.query.latitude,req.query.longitude);

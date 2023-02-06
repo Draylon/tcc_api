@@ -6,5 +6,11 @@
     get: async (req, res) => {
         
     },
+    getByName: async(req,res)=>{
+
+    },
+    getBlurHash: async(req,res)=>{
+
+    },
     
 }
