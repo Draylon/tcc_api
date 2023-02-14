@@ -40,7 +40,21 @@ module.exports = {
             }
             break;
             case "sensordata":{
-
+                //realtime_index_location;last24h_graph_location;comparison_yearly_monthly;averages_by_daterange;averages_by
+                var query_fields = req.query.queryFields.split(";");
+                query_fields.forEach(fn => {
+                    if (fn in sharedQueries && typeof sharedQueries[fn] === "function") {
+                        var result = sharedQueries[fn](req.query.dataFrom,JSON.parse(req.query.location));
+                        response_data.push(result);
+                        }else{
+                            console.log("Compromised function call!");
+                            console.log("could not find " + fn + " function");
+                      }
+                    
+                });
+                await Promise.all(response_data).then((values)=>{
+                    return res.status(200).send(values);
+                });
             }
             case "withincity":{
 

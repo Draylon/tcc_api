@@ -11,9 +11,48 @@
 
 const mongoose = require('mongoose');
 const {Location,SensorDevice, LocationType} = require("../models")
+const sharedRetrieve = require("../shared/data_retrieve")
 
 module.exports = {
-    get: async (req, res) => {
+    v2_get: async (req, res) => {
+        console.log(req.body);
+        console.log(req.query);
+        console.log(req.params);
+
+        if(req.params.data_type == 'main_menu'){
+            //Encontrar local da pessoa, via whois (e GPS?)
+            //Filtrar tags de local mais próximas
+            //Listar tipos de dados dos sensores mais próximos
+            //Listar todas as tags na cidade
+            //Filtrar as cidades mais próximas
+
+            if(req.query == {} || req.params == {})
+                return res.status(400).send();
+            
+            var rd = {
+                "sensordata": await sharedRetrieve.sensordatatype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
+                "tags": await sharedRetrieve.locationtype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
+                //Removido - não é pra turismo :(
+                //"withincity": get from shared, or from v1,
+                //"nearbycities": get from shared,
+            };
+
+            return res.status(200).json(rd);
+        }else{
+            //http://api.positionstack.com/v1/reverse?access_key=83305497cc68ff4dbbb3a16664975d10&query=-26.295280164458728,-48.83570063881643&limit=10
+    
+            return res.status(200).send("Type not specified");
+
+            const data = await SensorData.find({device_id:req.query.data_type},length=10);
+            if (data){
+                return res.status(200).json(data);
+            }else{
+                res.status(400).send();
+                return;
+            }
+        }
+    },
+    v1_get: async (req, res) => {
         console.log(req.body);
         console.log(req.query);
         console.log(req.params);
