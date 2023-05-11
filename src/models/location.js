@@ -8,7 +8,6 @@ const profileSchema = mongoose.Schema({
     description: {type: String, required: true},
     devices: [mongoose.Schema.Types.ObjectId],
     location_type: [mongoose.Schema.Types.ObjectId],
-    //data: String, // não sei mais oq era kkkkkkkkk
     date: {type: Date,default: Date.now},
     location: {
         type: {

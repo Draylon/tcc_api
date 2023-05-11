@@ -44,15 +44,13 @@ if(process.env.NODE_ENV == "development"){
             console.log("Started https");
         });
 
-        //mqtt_en.init(mqtt_msg_parser);
+        mqtt_en.debug(mqtt_msg_parser);
 
     } catch (error) {
         console.log(error);
     }
     });
-}
-
-if(process.env.NODE_ENV == "production"){
+}else if(process.env.NODE_ENV == "production"){
     app.listen(8080, () => {
         console.log("app is listening successfully");
     })

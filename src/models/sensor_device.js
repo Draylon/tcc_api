@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 
 const profileSchema = mongoose.Schema({
+    short_id: {type:String,default:""},
     name: {type: String,default: "Unknown Device"},
     description: {type: String,default:"no description avaliable"},
     data_type: {
@@ -29,7 +30,7 @@ profileSchema.index({
     location: "2dsphere",
 });
 
-profileSchema.static('findByDistance', function(latitude, longitude, distance=0) {
+profileSchema.static('findByDistance', function(latitude, longitude, distance=0,limit_=20) {
     if(latitude+0!==latitude){
         latitude=Number(latitude);
         longitude=Number(longitude);
@@ -44,7 +45,7 @@ profileSchema.static('findByDistance', function(latitude, longitude, distance=0)
                     distanceField: 'distance'
                 }
             },
-            { $limit: 20 }
+            { $limit: limit_ }
         ]);
     else return this.aggregate([
         {
@@ -57,7 +58,7 @@ profileSchema.static('findByDistance', function(latitude, longitude, distance=0)
                 distanceField: 'distance'
             }
         },
-        { $limit: 20 }
+        { $limit: limit_ }
     ]);
 });
 

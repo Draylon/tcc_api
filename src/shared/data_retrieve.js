@@ -1,8 +1,16 @@
 const mongoose = require('mongoose');
-const { Location,SensorDevice,LocationType, SensorData } = require('../models');
+const { Location,SensorDevice,LocationType, SensorData, ProgramData} = require('../models');
 
 module.exports = {
-    locations_by_tag_nearby: async (tag,user_loc)=>{
+    programs_available_by_tag : async(tags_)=>{
+        return await ProgramData.find({tags: { $in:tags_}});
+    },
+    programs_available_nearest : async(user_loc,lim)=>{
+        const data = await ProgramData.query_nearby_tags(user_loc.latitude,user_loc.longitude,tag,0,3);
+        return data;
+    },
+
+    sensordatatype_avaliable_nearby: async(user_loc)=>{
         console.log(user_loc);
         //Local que possui a tag. Mostrar 3 primeiros, 4° botão "carregar o resto" se tiver mais. "carregar cidades proximas" se acabar.
         
@@ -55,9 +63,9 @@ module.exports = {
         })
         return repl;
     },
-    sensordatatype_avaliable_nearby: async(user_loc)=>{
+    sensordatatype_avaliable_nearby: async(user_loc,distance=0)=>{
         var loc_unit_types=new Set();
-        var sensors_nearby = await SensorDevice.findByDistance(user_loc.latitude,user_loc.longitude);
+        var sensors_nearby = await SensorDevice.findByDistance(user_loc.latitude,user_loc.longitude,distance);
         sensors_nearby.forEach(element=>{
             element.data_type.forEach(e=>{
                 loc_unit_types.add(e);
@@ -106,6 +114,86 @@ module.exports = {
         console.log(dataq);
         return {type:"realtime_index",data:[{"sensor_data":dataq}]};
     },
+
+    ui_button: async(user_loc,until,from,sensor_data_tags,exibit) =>{
+        
+        console.log({"data":null,"passthrough":exibit});
+        return {"data":null,"passthrough":exibit};
+
+    },
+    epoch_data: async(user_loc,until,from,sensor_data_tags,exibit) =>{
+        //limit by region
+        var devices = await SensorDevice.findByDistance(user_loc.latitude,user_loc.longitude,15);
+        var dev_ids = [];
+        devices.forEach((e)=>dev_ids.push(e._id));
+        
+        var response_data = [];
+        console.log(exibit);
+
+        exibit.dataset_data_type.forEach(dtype => {
+            switch (dtype) {
+                case "all_related_tags":
+                    response_data.push(new Promise( async (res,rej)=> {
+                        var raw_data = await SensorData.find({
+                                device_id: {
+                                    $in:dev_ids
+                                },
+                                data_type: {
+                                    $in: sensor_data_tags
+                                },
+                                date:{
+                                    $gte:new Date(until.toISOString()),$lt:new Date(from.toISOString())
+                                }
+                            },{
+                                _id:0,
+                                data:1,
+                                date:1,
+                            }
+                        );
+                        var parsed_data = [];
+                        exibit.data_parsing_functions.forEach(parse_method =>{
+                            switch(parse_method){
+                                case "tags_are_level_percentage":
+                                    // QUERY METHOD FOR SPECIFIC DATA TYPE!!!!!!!!!!!!
+                                    raw_data.forEach(data_obj=>{
+                                        console.log(data_obj);
+                                        var v1 = (data_obj.data - 400);
+                                        if(v1<0) v1*=-1;
+                                        if(v1<50) parsed_data.push(100);
+                                        else parsed_data.push(100 - (v1*100/250));
+                                    });
+                                    avg = 0;
+                                    parsed_data.forEach(v=>{avg+=v;});
+                                    avg/=parsed_data.length;
+                                    parsed_data=[0,avg,100];
+                                    break;
+                                default:
+                                    parsed_data = raw_data;
+                            }
+                        });
+                        res(parsed_data);
+                    }
+                    ));
+                    break;
+                case "traffic_info":
+                    //query traffic data?
+                    break;
+                case "crowd_info":
+                    //query users cache location :)
+                    break;
+                default:
+                    break;
+            }
+        });
+        var ret;
+        await Promise.all(response_data).then((values)=>{
+            console.log(values);
+            ret={"data":values,"passthrough":exibit};
+        });
+        return ret;
+        ///console.log({type:"epoch_data",data:[{"sensor_data":dataq,"threshold":600}]});
+        //return {type:"epoch_data",data:[{"sensor_data":dataq,"threshold":600}]};
+    },
     last24h_graph_location: async (dataType,user_loc)=>{
         var devices = await SensorDevice.findByDistance(user_loc.latitude,user_loc.longitude,1);
         var dev_ids = [];
@@ -132,9 +220,6 @@ module.exports = {
 
     },
     averages_by_daterange: async (dataType,latitude,longitude)=>{
-
-    },
-    averages_by_something: async (dataType,latitude,longitude)=>{
 
     },
 

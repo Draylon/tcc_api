@@ -26,12 +26,81 @@ module.exports = {
             //Listar todas as tags na cidade
             //Filtrar as cidades mais próximas
 
-            if(req.query == {} || req.params == {})
-                return res.status(400).send();
+            if(req.query == {} || req.params == {}) return res.status(400).send();
             
+            var nearby_tags = await sharedRetrieve.sensordatatype_avaliable_nearby(
+                {"latitude":req.query.latitude,"longitude":req.query.longitude},
+                20
+            );
+            console.log("nearby program tags");
+            console.log(nearby_tags);
+            var nearby_programs = await sharedRetrieve.programs_available_by_tag(
+                nearby_tags
+            );
+            
+            var suggestions = [];
+            if(nearby_programs.length==0) suggestions.push({
+                "name": "Redefinir localização",
+                "description": "não há dados na região",
+                "detailed": "Redefina sua localização para obter novos dados",
+                "exibits": [{
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "Selecionar região",
+                            "desc": "Altere a região de busca através do mapa.",
+                            "action": "map_pick"
+                        }
+                    }, {
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "GPS",
+                            "desc": "Permissão de GPS",
+                            "action": ""
+                        }
+                    }
+                    
+                ]
+            });
+            if(nearby_programs.length==1) suggestions.push({
+                "name": "Melhorar localização",
+                "description": "poucos dados na sua região",
+                "detailed": "melhore sua localização manualmente ou com GPS, para obter mais dados",
+                "exibits": [{
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "Selecionar região",
+                            "desc": "Altere a região de busca através do mapa.",
+                            "action": "map_pick"
+                        }
+                    }, {
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "GPS",
+                            "desc": "Permissão de GPS",
+                            "action": ""
+                        }
+                    }
+                    
+                ]
+            });
+            
+            console.log(nearby_programs);
+            console.log(suggestions);
+
             var rd = {
-                "sensordata": await sharedRetrieve.sensordatatype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
-                "tags": await sharedRetrieve.locationtype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
+                "available_programs": nearby_programs,
+                "suggestions": suggestions
+
+                //"sensordata": await sharedRetrieve.sensordatatype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
+                //"tags": await sharedRetrieve.locationtype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
                 //Removido - não é pra turismo :(
                 //"withincity": get from shared, or from v1,
                 //"nearbycities": get from shared,
@@ -41,7 +110,7 @@ module.exports = {
         }else{
             //http://api.positionstack.com/v1/reverse?access_key=83305497cc68ff4dbbb3a16664975d10&query=-26.295280164458728,-48.83570063881643&limit=10
     
-            return res.status(200).send("Type not specified");
+            return res.status(400).send("Type not specified");
 
             const data = await SensorData.find({device_id:req.query.data_type},length=10);
             if (data){

@@ -28,8 +28,8 @@ v1_route
     .delete(DataCtrl.deleteAll);
 
     v1_route
-    .route('/data/ui_feed/:type')
-    .all(DataCtrl.parseUIFeed);
+    .route('/data/feed/:program')
+    .all(DataCtrl.parseProgramData);
 
     v1_route
     .route('/data/region/:lat/:long')

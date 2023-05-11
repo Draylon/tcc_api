@@ -1,4 +1,6 @@
 module.exports = {
+    ProgramData: require('./dataProgram'),
+    CachedExibitData: require('./cachedExibitData'),
     DataParsingUI: require('./data_parse_ui'),
     DataParsingUIWidgets: require('./dpui_widgets'),
     GeoCoding: require('./geocoding'),
