@@ -23,6 +23,7 @@ cringe = (req,res) =>{
 };
 
 generalRouter.route("/").all(cringe);
+generalRouter.route("/cringe").all(cringe);
 
 //======================================================
 
