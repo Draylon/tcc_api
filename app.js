@@ -1,6 +1,7 @@
 const express = require('express');
 const mongo = require('./src/db/mongo');
 const router = require("./src/routes");
+const cors = require('cors');
 
 const https = require("https");
 const fs = require("fs");
@@ -18,6 +19,8 @@ app.use(express.json());
 app.use(helmet());
 
 app.use(router);
+app.use(cors());
+
 
 
 //========
