@@ -4,9 +4,9 @@ const client  = mqtt.connect('mqtt://test.mosquitto.org')
 client.on('connect', function () {
     console.log("Connected");
     console.log(`Is client connected: ${client.connected}`);
-    client.subscribe('STONKSTOPIC', function (err) {
+    client.subscribe('hyqnap5637', function (err) {
         if (!err) {
-        client.publish('STONKSTOPIC', '_')
+        client.publish('hyqnap5637', '_')
         }else{
             console.log("fail subscribe");
         }

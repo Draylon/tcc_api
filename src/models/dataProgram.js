@@ -50,6 +50,47 @@ profileSchema.static('query_by_tags', function(tags) {
 
 module.exports = mongoose.model('programData', profileSchema);
 
+/**
+ * 
+ * [
+  {
+    data: [
+      [0, 59.864000000000004, 100]
+    ], 
+    passthrough: {
+      _id: 64ab5abe3439b03dd10ded19, 
+      dataset_interval: last1h, 
+      dataset_data_type: [all_related_tags, traffic_info, crowd_info], 
+      data_display: radial, 
+      data_parsing_functions: [tags_are_level_percentage], 
+      data_type: epoch_data, 
+      static_input_data: {
+        title: Porcentagens na última hora
+      }
+    }
+  }, 
+  {
+    data: [[
+      {data: 456.29, date: 2023-05-06T17:15:00.000Z}, 
+      {data: 440.87, date: 2023-05-06T17:45:00.000Z}, 
+      {data: 404.78, date: 2023-05-06T18:15:00.000Z}, 
+      {data: 422.33, date: 2023-05-06T18:45:00.000Z}, 
+      {data: 459.63, date: 2023-05-06T19:15:00.000Z}, 
+      {data: 396.72, date: 2023-05-06T19:45:00.000Z}, 
+      {data: 424.91, date: 2023-05-06T20:15:00.000Z}, 
+      {data: 394.16, date: 2023-05-06T20:45:00.000Z}, 
+      {data: 445.24, date: 2023-05-06T21:15:00.000Z}, 
+      {data: 453.97, date: 2023-05-06T21:45:00.000Z}, 
+      {data: 463.65, date: 2023-05-06T22:15:00.000Z}, 
+      {data: 411.94, date: 2023-05-06T22:45:00.000Z}, 
+      {data: 457.08, date: 2023-05-06T23:15:00.000Z}, 
+      {data: 403.12, date: 2023-05-06T23:45:00.000Z}, 
+    ]]
+  }
+]
+ */
+
+
 /*
 
 {

@@ -30,6 +30,10 @@ v1_route
     .get(Location.getByRegion);
 
 v1_route
+    .route('/loc/searchByName')
+    .get(Location.getByInput);
+
+v1_route
     .route('/loc/type')
     .get(SensorCtrl.getOne)
     .patch(SensorCtrl.updateOne)
