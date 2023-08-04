@@ -2,6 +2,23 @@ const axios = require("axios");
 
 
 module.exports = {
+    getGeocodingData: async(req,res)=>{
+        console.log(req.body);
+        console.log(req.query);
+        console.log(req.params);
+        const ipdata = requestIp.getClientIp(req);
+        const repl = await axios.get(
+            "ipwho.is/"+ipdata,{
+            headers: {}
+        });
+        var blurHashListing = [];
+        repl.data.forEach(image_element => {
+            blurHashListing.push(image_element.blur_hash);
+        });
+        console.log(blurHashListing);
+        return res.status(200).send(blurHashListing);
+    },
+
     getBlurHashes: async (req,res)=>{
         console.log(req.body);
         console.log(req.query);

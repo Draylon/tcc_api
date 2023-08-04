@@ -44,7 +44,7 @@ if(process.env.NODE_ENV == "development"){
             console.log("Started https");
         });
 
-        mqtt_en.debug(mqtt_msg_parser);
+        //mqtt_en.debug(mqtt_msg_parser);
 
     } catch (error) {
         console.log(error);

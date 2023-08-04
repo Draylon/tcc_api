@@ -30,6 +30,10 @@ v1_route
     .route("/api/util/img_lookup")
     .get(Utils.getImg);
 
+    v1_route
+    .route("/api/util/geocoding")
+    .get(Utils.getGeocodingData);
+
 //=================================
 
 router.use('/v1',v1_route);
