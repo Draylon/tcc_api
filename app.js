@@ -15,11 +15,13 @@ const mqtt_msg_parser = require("./src/shared/mqtt_message_parser")
 require('dotenv').config();
 
 const app = express();
+
+app.use(cors());
+
 app.use(express.json());
 app.use(helmet());
 
 app.use(router);
-app.use(cors());
 
 
 
