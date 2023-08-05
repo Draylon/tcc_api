@@ -19,19 +19,19 @@ cringe = (req,res) =>{
 const v1_route = express.Router();
 
 v1_route
-    .route("/api/util/blurhashes")
+    .route("/util/blurhashes")
     .get(Utils.getBlurHashes);
 
 v1_route
-    .route("/api/util/retrieve_asset")
+    .route("/util/retrieve_asset")
     .get(Utils.retrieveAsset);
 
 v1_route
-    .route("/api/util/img_lookup")
+    .route("/util/img_lookup")
     .get(Utils.getImg);
 
-    v1_route
-    .route("/api/util/geocoding")
+v1_route
+    .route("/util/geocoding")
     .get(Utils.getGeocodingData);
 
 //=================================
