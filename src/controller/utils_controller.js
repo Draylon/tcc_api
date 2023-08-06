@@ -9,7 +9,7 @@ module.exports = {
         console.log(req.params);
         const ipdata = requestIp.getClientIp(req);
         const repl = await axios.get(
-            "https://ipwho.is/"+ipdata,{
+            "https://ipwho.is/"+ipdata+"?fields="+req.query.fields,{
             headers: {}
         });
         return res.status(200).send(repl.data);
