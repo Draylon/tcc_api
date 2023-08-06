@@ -12,12 +12,7 @@ module.exports = {
             "https://ipwho.is/"+ipdata,{
             headers: {}
         });
-        var blurHashListing = [];
-        repl.data.forEach(image_element => {
-            blurHashListing.push(image_element.blur_hash);
-        });
-        console.log(blurHashListing);
-        return res.status(200).send(blurHashListing);
+        return res.status(200).send(repl.data);
     },
 
     getBlurHashes: async (req,res)=>{
