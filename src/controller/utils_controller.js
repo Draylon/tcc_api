@@ -9,7 +9,7 @@ module.exports = {
         console.log(req.params);
         const ipdata = requestIp.getClientIp(req);
         const repl = await axios.get(
-            "ipwho.is/"+ipdata,{
+            "https://ipwho.is/"+ipdata,{
             headers: {}
         });
         var blurHashListing = [];
