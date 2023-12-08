@@ -7,6 +7,7 @@ const module_list = [
     require("./data_routes"),
     require("./uiData_routes"),
     require("./api_util"),
+    require("./login_routes"),
 ];
 
 module_list.forEach((e)=>generalRouter.use(e));

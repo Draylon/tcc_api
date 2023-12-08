@@ -8,5 +8,5 @@ module.exports = {
     Location: require("./locations_ctrl"),
     //LocationType: require("./loctype_ctrl"),
     Utils: require("./utils_controller"),
-    
+    LoginCtrl: require("./login_ctrl"),
 };

@@ -223,5 +223,71 @@ module.exports = {
 
     },
 
-    
+    webapp_header_data: async (interestName)=>{
+        //return ["<Container className='py-lg-md d-flex'><div className='col px-0'><Row><Col lg='9'><h1 className='display-3 text-white' style={{textAlign: 'justify',borderBottom:'2.5px white solid'}}>Qualidade do ar em</h1><h3 className='display-6 text-white' style={{textAlign: 'end'}}><span>{'Joinville'}</span></h3><p className='lead text-white'>Consulte informação sobre poluentes presentes no ar em {'joinville'}.Informe-se sobre as condições de locais em {'joinville'} comumente visitados.</p><div className='btn-wrapper'><ButtonclassName='btn-icon mb-3 mb-sm-0'color='info'href='#'><span className='btn-inner--icon mr-1'><i className='fa fa-code' /></span><span className='btn-inner--text'>Mapa aqui</span></Button><ButtonclassName='btn-white btn-icon mb-3 mb-sm-0 ml-1'color='default'href='#'><span className='btn-inner--icon mr-1'><i className='ni ni-cloud-download-95' /></span><span className='btn-inner--text'>Saiba mais</span></Button></div></Col></Row></div></Container>"];
+        //return ["<div className='col px-0'><Row><Col lg='9'><h1 className='display-3 text-white' style={{textAlign: 'justify',borderBottom:'2.5px white solid'}}>Qualidade do ar em</h1><h3 className='display-6 text-white' style={{textAlign: 'end'}}><span>{'Joinville'}</span></h3><p className='lead text-white'>Consulte informação sobre poluentes presentes no ar em {'joinville'}.Informe-se sobre as condições de locais em {'joinville'} comumente visitados.</p><div className='btn-wrapper'><ButtonclassName='btn-icon mb-3 mb-sm-0'color='info'href='#'><span className='btn-inner--icon mr-1'><i className='fa fa-code' /></span><span className='btn-inner--text'>Mapa aqui</span></Button><ButtonclassName='btn-white btn-icon mb-3 mb-sm-0 ml-1'color='default'href='#'><span className='btn-inner--icon mr-1'><i className='ni ni-cloud-download-95' /></span><span className='btn-inner--text'>Saiba mais</span></Button></div></Col></Row></div>"];
+        return [{
+            titleUpper: "Qualidade do ar em",
+            titleLower: interestName,
+            description: [
+                "Consulte informação sobre poluentes presentes no ar em "+interestName+".",
+                "Informe-se sobre as condições de locais em "+interestName+" comumente visitados."],
+            actions: [
+                {
+                    type: "bt1",
+                    txt: "Mapa aqui",
+                    action: "#"
+                },
+                {
+                    type: "bt2",
+                    txt: "Saiba mais",
+                }
+            ],
+            src_img: "",
+        }];
+    },
+
+    webapp_section_data: async (cityName,lat,lng)=>{
+        var l1 = ["Mirante","Pórtico","Finder","UDESC","Eixo Industrial"];
+        var l2 = ["Jardim Botânico","Ópera de Arame","Mercado Municipal","Parque Barigui","Museu Oscar Niemeyer","Memorial Polonês","Bosque do Alemão","Parque Vista Alegre"]
+        var lst=[];
+        if(cityName == "Curitiba"){
+            l2.map(x=>{
+                lst.push({
+                    name: x,
+                    ref: "/api/v1/ui_data/webapp_exibit/queryLocale?ref="+x+"&base=data",
+                    thumb: "#"
+                })
+            })
+        }else{
+            l1.map(x=>{
+                lst.push({
+                    name: x,
+                    ref: "/api/v1/ui_data/webapp_exibit/queryLocale?ref="+x+"&base=data",
+                    thumb: "#"
+                })
+            })
+        }
+        return [
+            {
+                objectiveTitle: "Locais mais visitados em "+cityName,
+                carouselItems: lst,
+            },
+            {
+                objectiveTitle: "Near you",
+                carouselItems: lst.slice(0,2),
+            },
+            {
+                objectiveTitle: "Problemas recentemente reportados",
+                carouselItems: [
+                    //await public_notifications(localeData,4),
+                    {
+                        name: "Alto índice de CO2",
+                        ref: "/api/v1/ui_data/webapp_exibit/queryIssues?ref=EixoIndustrial&base=data",
+                        thumb: "#"
+                    },
+                ],
+            },
+        ];
+    },
 };

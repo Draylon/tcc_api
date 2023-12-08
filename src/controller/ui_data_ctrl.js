@@ -14,7 +14,8 @@ const {Location,SensorDevice, LocationType} = require("../models")
 const sharedRetrieve = require("../shared/data_retrieve")
 
 module.exports = {
-    v2_get: async (req, res) => {
+
+    most_visited_nearby_cards: async(req,res) => {
         console.log(req.body);
         console.log(req.query);
         console.log(req.params);
@@ -110,6 +111,225 @@ module.exports = {
         }else{
             //http://api.positionstack.com/v1/reverse?access_key=83305497cc68ff4dbbb3a16664975d10&query=-26.295280164458728,-48.83570063881643&limit=10
     
+            return res.status(400).send("Type not specified");
+
+            const data = await SensorData.find({device_id:req.query.data_type},length=10);
+            if (data){
+                return res.status(200).json(data);
+            }else{
+                res.status(400).send();
+                return;
+            }
+        }
+    },
+
+    v2_get: async (req, res) => {
+        console.log(req.body);
+        console.log(req.query);
+        console.log(req.params);
+
+        if(req.params.data_type == 'main_menu'){
+            //Encontrar local da pessoa, via whois (e GPS?)
+            //Filtrar tags de local mais próximas
+            //Listar tipos de dados dos sensores mais próximos
+            //Listar todas as tags na cidade
+            //Filtrar as cidades mais próximas
+
+            if(req.query == {} || req.params == {}) return res.status(400).send();
+            
+            var nearby_tags = await sharedRetrieve.sensordatatype_avaliable_nearby(
+                {"latitude":req.query.latitude,"longitude":req.query.longitude},
+                20
+            );
+            console.log("nearby program tags");
+            console.log(nearby_tags);
+            var nearby_programs = await sharedRetrieve.programs_available_by_tag(
+                nearby_tags
+            );
+            
+            var suggestions = [];
+            if(nearby_programs.length==0) suggestions.push({
+                "name": "Redefinir localização",
+                "description": "não há dados na região",
+                "detailed": "Redefina sua localização para obter novos dados",
+                "exibits": [{
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "Selecionar região",
+                            "desc": "Altere a região de busca através do mapa.",
+                            "action": "map_pick"
+                        }
+                    }, {
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "GPS",
+                            "desc": "Permissão de GPS",
+                            "action": ""
+                        }
+                    }
+                    
+                ]
+            });
+            if(nearby_programs.length==1) suggestions.push({
+                "name": "Melhorar localização",
+                "description": "poucos dados na sua região",
+                "detailed": "melhore sua localização manualmente ou com GPS, para obter mais dados",
+                "exibits": [{
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "Selecionar região",
+                            "desc": "Altere a região de busca através do mapa.",
+                            "action": "map_pick"
+                        }
+                    }, {
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "GPS",
+                            "desc": "Permissão de GPS",
+                            "action": ""
+                        }
+                    }
+                    
+                ]
+            });
+            
+            console.log(nearby_programs);
+            console.log(suggestions);
+
+            var rd = {
+                "available_programs": nearby_programs,
+                "suggestions": suggestions
+
+                //"sensordata": await sharedRetrieve.sensordatatype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
+                //"tags": await sharedRetrieve.locationtype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
+                //Removido - não é pra turismo :(
+                //"withincity": get from shared, or from v1,
+                //"nearbycities": get from shared,
+            };
+
+            return res.status(200).json(rd);
+        
+        }else if(req.params.data_type == 'webapp_mostvisited_cards'){
+
+            //Encontrar local da pessoa, via whois (e GPS?)
+            //Filtrar tags de local mais próximas
+            //Listar tipos de dados dos sensores mais próximos
+            //Listar todas as tags na cidade
+            //Filtrar as cidades mais próximas
+
+            if(req.query == {} || req.params == {}) return res.status(400).send();
+            
+            var nearby_tags = await sharedRetrieve.sensordatatype_avaliable_nearby(
+                {"latitude":req.query.latitude,"longitude":req.query.longitude},
+                20
+            );
+            console.log("nearby program tags");
+            console.log(nearby_tags);
+            var nearby_programs = await sharedRetrieve.programs_available_by_tag(
+                nearby_tags
+            );
+            
+            var suggestions = [];
+            if(nearby_programs.length==0) suggestions.push({
+                "name": "Redefinir localização",
+                "description": "não há dados na região",
+                "detailed": "Redefina sua localização para obter novos dados",
+                "exibits": [{
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "Selecionar região",
+                            "desc": "Altere a região de busca através do mapa.",
+                            "action": "map_pick"
+                        }
+                    }, {
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "GPS",
+                            "desc": "Permissão de GPS",
+                            "action": ""
+                        }
+                    }
+                    
+                ]
+            });
+            if(nearby_programs.length==1) suggestions.push({
+                "name": "Melhorar localização",
+                "description": "poucos dados na sua região",
+                "detailed": "melhore sua localização manualmente ou com GPS, para obter mais dados",
+                "exibits": [{
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "Selecionar região",
+                            "desc": "Altere a região de busca através do mapa.",
+                            "action": "map_pick"
+                        }
+                    }, {
+                        "dataset_data_type": [""],
+                        "data_display": "wide_card_button",
+                        "data_type": "ui_button",
+                        "static_input_data": {
+                            "title": "GPS",
+                            "desc": "Permissão de GPS",
+                            "action": ""
+                        }
+                    }
+                    
+                ]
+            });
+            
+            console.log(nearby_programs);
+            console.log(suggestions);
+
+            var rd = {
+                "available_programs": nearby_programs,
+                "suggestions": suggestions
+
+                //"sensordata": await sharedRetrieve.sensordatatype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
+                //"tags": await sharedRetrieve.locationtype_avaliable_nearby({"latitude":req.query.latitude,"longitude":req.query.longitude}),
+                //Removido - não é pra turismo :(
+                //"withincity": get from shared, or from v1,
+                //"nearbycities": get from shared,
+            };
+
+            return res.status(200).json(rd);
+
+        }else if(req.params.data_type == 'webapp_nearest_cards'){
+
+        }else if(req.params.data_type == 'webapp_nearest_warnings'){
+            
+        }else if(req.params.data_type == 'webapp_main_carousel'){
+            if(req.query == {} || req.params == {}) return res.status(400).send();
+            
+            var city_header_data = await sharedRetrieve.webapp_header_data(req.query.cityName);
+
+            if(city_header_data){
+                return res.status(200).json(city_header_data);
+            }else return res.status(400).send("city not found?!");
+        }else if(req.params.data_type == 'webapp_main_section'){
+            if(req.query == {} || req.params == {}) return res.status(400).send();
+            
+            var city_header_data = await sharedRetrieve.webapp_section_data(req.query.cityName,req.query.lat,req.query.lng);
+
+            if(city_header_data){
+                return res.status(200).json(city_header_data);
+            }else return res.status(400).send("city not found?!");
+        }else{
+            //http://api.positionstack.com/v1/reverse?access_key=83305497cc68ff4dbbb3a16664975d10&query=-26.295280164458728,-48.83570063881643&limit=10
+            console.log("type not specified?");
             return res.status(400).send("Type not specified");
 
             const data = await SensorData.find({device_id:req.query.data_type},length=10);

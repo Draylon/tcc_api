@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const profileSchema = mongoose.Schema({
     short_id: {type:String,default:""},
+    tokenID: {type:String,default:""},
     name: {type: String,default: "Unknown Device"},
     description: {type: String,default:"no description avaliable"},
     data_type: {

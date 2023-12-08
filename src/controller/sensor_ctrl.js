@@ -40,9 +40,14 @@ module.exports = {
             data_type: req.body.data_type,
         };
         const merged = Object.assign({ _id: mongoose.Types.ObjectId() }, data);
+        
+        //criar uma ID unica apartir do ObjectID
+        merged.shortid = generate_shortID();
+        
         const newFrag = await new SensorDevice(merged);
         return newFrag.save().then(
-            res.status(201).send()
+            res.status(200).send(merged.short_id)
+            //res.status(201).send()
         );
     },
     updateOne: async (req, res) => {

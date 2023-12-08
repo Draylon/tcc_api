@@ -33,13 +33,13 @@ module.exports={
         })
     },
     getNewClient: ()=>{
-        if(process.env.NODE_ENV == "development"){
+        if(process.env.NODE_ENV == "production"){
             const client  = mqtt.connect('mqtt://192.168.0.4:1883',{
                 username:"rcv_1",
                 password:"mqttreceiver1"
             });
             return client;
-        }else if(process.env.NODE_ENV == "production"){
+        }else if(process.env.NODE_ENV == "development"){
             const client  = mqtt.connect('mqtt://test.mosquitto.org:1883');
             return client;
         }else{

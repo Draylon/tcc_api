@@ -5,6 +5,7 @@ const profileSchema = mongoose.Schema({
     view_type: String,
     widgets_pos: [Number],
     widgets_list: [mongoose.Schema.Types.ObjectId],
+    viewport: String,
 
 });
 

@@ -14,6 +14,21 @@ module.exports = {
         });
         return res.status(200).send(repl.data);
     },
+    
+    getGeocodingAddr: async(req,res)=>{
+        console.log(req.body);
+        console.log(req.query);
+        console.log(req.params);
+        if(req.query.fields == undefined){
+            const repl= await axios.get("https://ipwho.is/"+req.params.addr,{headers: {}});
+            return res.status(200).send(repl.data);
+        }else{
+            const repl= await axios.get("https://ipwho.is/"+req.params.addr+"?fields="+req.query.fields,{headers: {}});
+            return res.status(200).send(repl.data);
+        }
+        /* const repl = await axios.get("http://api.positionstack.com/v1/reverse?access_key="+process.env.POSITIONSTACK+"&query="+req.params.lat+","+req.params.long+"&limit=1");
+        return res.status(200).send(repl.data.data[0]); */
+    },
 
     getBlurHashes: async (req,res)=>{
         console.log(req.body);

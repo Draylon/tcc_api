@@ -27,15 +27,18 @@ const axios = require("axios");
         console.log(req.body);
         console.log(req.query);
         console.log(req.params);
+        console.log("===========");
         
-        if(req.params.lat!=""&&req.params.long!=""){
+        if(req.query.search_topic!=""){
             try{
                 const repl = await axios.get("http://api.positionstack.com/v1/forward?access_key="+process.env.POSITIONSTACK+"&query="+req.query.search_topic+"&country=BR&limit=10");
-                console.log(repl.data.data);
-                return res.status(200).send(repl.data.data);
+                return res.status(repl.status).send(repl.data.data);
             }catch(e){
-                return res.status(400).send(e.response);
+                console.log(e);
+                return res.status(e.status).send(e.statusText);
             }
+        }else{
+            return res.status(400).send("");
         }
     }
     

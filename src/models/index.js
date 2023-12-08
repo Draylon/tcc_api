@@ -9,6 +9,5 @@ module.exports = {
     SensorData: require('./sensor_data'),
     SensorDevice: require('./sensor_device'),
     UserAuth: require('./user_auth'),
-
-    
+    JWT_Track: require('./jwt_track'),
 };

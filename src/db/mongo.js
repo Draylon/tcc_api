@@ -12,11 +12,11 @@ module.exports = {
             family: 4
         };
 
-        if(process.env.NODE_ENV == "production"){
+        if(process.env.NODE_ENV == "development"){
             mongoose.connect('mongodb+srv://'+process.env.MONGODB_USERNAME+':'+process.env.MONGODB_PW+'@'+process.env.MONGODB_CLOUD_ADDR,dbOptions);
         }
-        if(process.env.NODE_ENV == "development"){
-            mongoose.connect('mongodb://192.168.0.3:27017/trab_db', {useNewUrlParser: true});
+        if(process.env.NODE_ENV == "production"){
+            mongoose.connect('mongodb://192.168.0.4:27017/trab_db', {useNewUrlParser: true});
         }
         ////mongoose.connect('mongodb+srv://admin:'+process.env.MONGO_PW+'@cluster0.w3ynl.mongodb.net/DogeBot_SQL?retryWrites=true&w=majority', dbOptions);
         

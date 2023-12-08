@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 let { getNewClient,getStaticClient } = require('../../mqtt')
+const {SensorCtrl} = require('../controller');
 
 module.exports = (topic,message)=>{
     console.log("message received:::");
@@ -18,8 +19,13 @@ module.exports = (topic,message)=>{
                     console.log("adding new sensor");
                     const lm1 = message.toString().split("_");
                     const cli1 = getStaticClient();
-                    cli1.publish("hyqnap5637/sensor/registered_sensor",(Number(lm1[0])).toString()+"_"+(Number(lm1[0]) + 8));
-                    topicRR.shift();break;
+                    cli1.publish(
+                        "hyqnap5637/sensor/registered_sensor",
+                        (Number(lm1[0])).toString()+"_"+(Number(lm1[0]) + 8)
+                    );
+                    topicRR.shift();
+                    //update 
+                    break;
                 case "registered_sensor":
                     topicRR.shift();break;
             //data coming in
