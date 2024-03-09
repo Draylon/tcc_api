@@ -77,6 +77,30 @@ $ npm run app
 ```
 Após executar, a API é inicializada na porta 8080, visto em [app.js](app.js)
 
+A aplicação faz uso de APIs de terçeiros, sendo estas [Unsplash](https://unsplash.com/documentation) e [PositionStack](https://positionstack.com/documentation).
+É necessário obter credenciais próprias e válidas para estes.
+
+É necessário estabelecer as seguintes variáveis de ambiente para a aplicação:
+- MONGODB_CLOUD_ADDR\
+    Endereço de nuvem do banco de dados mongodb.\
+    Ignorar caso o uso seja local.
+
+- MONGODB_USERNAME
+
+- MONGODB_PW\
+    Definir username/password do banco de dados\
+    Ignorar caso o banco utilize a config. de não-restrição.
+- NODE_ENV\
+    development = Local, em desenvolvimento\
+    production = em nuvem / remoto / release do sistema
+- UNSPLASH_KEY\
+    Definir chave da API [Unsplash](https://unsplash.com/documentation).
+- POSITIONSTACK\
+    Definir chave da API [PositionStack](https://positionstack.com/documentation).
+- JWT_KEY\
+    Chave de geração dos tokens JWT\
+    ( Pode ser qualquer string >= 16 caracteres )
+
 ## :memo: License ##
 
 This project is under license from MIT. For more details, see the [LICENSE](LICENSE.md) file.
