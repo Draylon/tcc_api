@@ -77,7 +77,7 @@ $ npm run app
 ```
 Após executar, a API é inicializada na porta 8080, visto em [app.js](app.js)
 
-A aplicação faz uso de APIs de terçeiros, sendo estas [Unsplash](https://unsplash.com/documentation) e [PositionStack](https://positionstack.com/documentation).
+A aplicação faz uso de APIs de terceiros, sendo estas [Unsplash](https://unsplash.com/documentation) e [PositionStack](https://positionstack.com/documentation).
 É necessário obter credenciais próprias e válidas para estes.
 
 É necessário estabelecer as seguintes variáveis de ambiente para a aplicação:
